@@ -1,0 +1,29 @@
+﻿<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/knockout-3.4.2.js"></script>
+
+@{
+    ViewBag.Title = "About";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<p>Use this area to provide additional information.</p>
+<form action="#">
+    <fieldset>
+        <legend>Simple fieldset</legend>
+        <input type="radio" id="radio">
+        <label for="radio">Spirit of radio</label>
+    </fieldset>
+</form>
+
+<p>First name: <strong data-bind="text: CSWS.name"></strong></p>
+
+<script type="text/javascript">
+    var CSWS = CSWS || {};
+
+    $(function () {
+        CSWS.name = ko.observable();
+        CSWS.name('Joe');
+        ko.applyBindings(CSWS);
+    });
+</script>
