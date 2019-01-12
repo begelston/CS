@@ -1,87 +1,62 @@
-﻿<div class="container">
+﻿@model CentralStation.Models.RequestModel
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/knockout-3.4.2.js"></script>
+<script src="~/Scripts/CSWS/CSWS.Dal.js"></script>
+<script src="~/Scripts/CSWS/PrayerRequest.js"></script>
+<script src="~/Scripts/CSWS/PrayerRequests.js"></script>
+<script src="~/Scripts/CSWS/CSWS.js"></script>
+
+
+
+<div class="container">
     <div class="row">
         <div class="col-4">
             <form class="form-horizontal">
                 <fieldset>
                     <!-- Form Name -->
                     <legend>Prayer Request</legend>
-
                     <!-- Text input-->
                     <div class="form-group">
-                        <label class="control-label" for="firstNameID">First Name</label>
-                            <input id="firstNameID" name="firstNameID" type="text" placeholder="First Name" class="form-control input-md" required="" 
-                                   style="background-color: lightblue; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;" value="" />
-                     </div>
-
+                        <label class="control-label" for="FirstName">First Name</label>
+                        @*<input id="FirstName" data-bind="value: CSWS.PRequest.FirstName" name="FirstName" type="text" placeholder="First Name" class="form-control input-md" required=""
+                            style="background-color: lightblue; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;" value="" />*@
+                        <input id="FirstName" name="FirstName" type="text" placeholder="First Name" class="form-control input-md" required=""
+                               style="background-color: lightblue; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;" value="" />
+                    </div>
                     <!-- Text input-->
                     <div class="form-group">
-                        <label class="control-label" for="lastNameID">Last Name</label>
-                        <input id="lastNameID" name="lastNameID" type="text" placeholder="Last Name" class="form-control input-md" required="" 
-                                style="background-color: lightblue; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;" value="" />
+                        <label class="control-label" for="LastName">Last Name</label>
+                        <input id="LastName" name="LastName" type="text" placeholder="Last Name" class="form-control input-md" required=""
+                               style="background-color: lightblue; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;" value="" />
                     </div>
-
                     <!-- Text input-->
                     <div class="form-group">
-                        <label class="control-label" for="email">Email</label>
-                        <input id="email" name="email" type="email" placeholder="Email" class="form-control input-md" required="" 
-                                style="background-color: lightblue; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;" value="" />
+                        <label class="control-label" for="Email">Email</label>
+                        <input id="Email" name="Email" type="email" placeholder="Email" class="form-control input-md" required=""
+                               style="background-color: lightblue; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: auto;" value="" />
                     </div>
 
-                    <!-- Multiple Checkboxes -->
-                    <div class="form-group">
-                        <label class="control-label" for="checkboxes">Stand With Me For These Needs:</label>
-                        <div class="checkbox">
-                            <label for="checkboxes-0">
-                                <input type="checkbox" name="checkboxes" id="checkboxes-0" value="1">
-                                Emotional
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label for="checkboxes-1">
-                                <input type="checkbox" name="checkboxes" id="checkboxes-1" value="2">
-                                Physical
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label for="checkboxes-2">
-                                <input type="checkbox" name="checkboxes" id="checkboxes-2" value="3">
-                                Financial
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label for="checkboxes-3">
-                                <input type="checkbox" name="checkboxes" id="checkboxes-3" value="4">
-                                Relationships
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label for="checkboxes-4">
-                                <input type="checkbox" name="checkboxes" id="checkboxes-4" value="5">
-                                Personal Spiritual Growth
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label for="checkboxes-5">
-                                <input type="checkbox" name="checkboxes" id="checkboxes-5" value="6">
-                                Miscellaneous
-                            </label>
-                        </div>
+                    <div class="checkbox">
+                        <label for="checkboxes-4">
+                            @Html.CheckBoxFor(m => m.RequestType)
+                            Personal Spiritual Growth
+                        </label>
                     </div>
+
 
                     <!-- Textarea -->
                     <div class="form-group">
-                        <label class="control-label" for="prayerText">*Briefly Tell Us How We Can Pray For You</label>
-                        <textarea class="form-control" id="prayerText" name="prayerText"></textarea>
+                        <label class="control-label" for="PrayerText">*Briefly Tell Us How We Can Pray For You</label>
+                        <textarea class="form-control" id="PrayerText" name="PrayerText"></textarea>
                     </div>
-
                     <!-- Button -->
                     <div class="form-group">
                         <label class="control-label" for="submitPrayer"></label>
-                        <button id="submitPrayer" name="submitPrayer" class="btn btn-primary">Submit</button>                        
+                        <button id="submitPrayer" name="submitPrayer" class="btn btn-primary" formaction="SubmitRequest" formmethod="post">Submit</button>
                     </div>
                 </fieldset>
             </form>
-         </div>
+        </div>
         <div class="col-8">
             <div class="row">
                 <div class="col bg-primary">
@@ -128,3 +103,18 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    var CSWSMain = CSWSMain || {};
+
+    $(function () {
+        CSWSMain = new CSWS();
+        CSWSMain.initialize();
+
+        ko.applyBindings(CSWSMain);
+    });
+
+
+
+</script>
+

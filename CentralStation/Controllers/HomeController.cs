@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CentralStation.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -36,6 +37,24 @@ namespace CentralStation.Controllers
         public ActionResult RequestForum()
         {
             return View();
+        }
+        [HttpGet]
+        public ActionResult GetRequests()
+        {
+            RequestModel rm = new RequestModel
+            {
+                FirstName = "FirstNameX",
+                LastName = "LastNameX",
+                Email = "xxx@xxxx.com",
+                PrayerText = "Enter request here"
+            };
+            return View(rm);
+        }
+
+        [HttpPost]
+        public ActionResult SubmitRequest(RequestModel request)
+        {
+            return View("RequestForum", request);
         }
 
         public ActionResult About()
